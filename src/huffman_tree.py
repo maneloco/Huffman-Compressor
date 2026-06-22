@@ -3,7 +3,7 @@ from min_heap import MinHeap
 from huffman_node import HuffmanNode
 
 
-def create_huffman_tree(frequencies: List[Tuple[bytes, int]]) -> HuffmanNode:
+def create_huffman_tree(frequencies: List[Tuple[int, int]]) -> Dict[int, str]:
     if not frequencies:
         return None
 
@@ -20,7 +20,7 @@ def create_huffman_tree(frequencies: List[Tuple[bytes, int]]) -> HuffmanNode:
         min_heap.insert(father)
     
     codes_dict = dict()
-    create_node_dict(min_heap.pop(), "", codes_dict)
+    create_code_dict(min_heap.pop(), "", codes_dict)
     return codes_dict
 
 def create_code_dict(node: HuffmanNode, current_code: str, codes_dict: Dict):

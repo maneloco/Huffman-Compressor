@@ -1,7 +1,7 @@
-from typing import TextIO, List, Tuple
+from typing import List, Tuple
 
 
-def get_frequencies(file: TextIO) -> List[Tuple[bytes, int]]:
+def get_frequencies(file) -> List[Tuple[int, int]]:
     bloque = file.read(1024)
     freqs_dict = dict()
     while bloque:
