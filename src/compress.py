@@ -1,8 +1,8 @@
-from typing import Dict, FileIO
+from typing import Dict
 import os
 
 
-def compress(file: FileIO, codes_dict: Dict[bytes, str], output_path: str):
+def compress(file, codes_dict: Dict[bytes, str], output_path: str):
     output_path += ".huff.tmp"
     with open(output_path, "wb") as output:
         accumulator: int = 0

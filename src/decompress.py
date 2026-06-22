@@ -1,4 +1,4 @@
-from typing import List, Dict, Tuple, FileIO
+from typing import List, Dict, Tuple
 from src.huffman_node import HuffmanNode
 from src.huffman_tree import create_huffman_tree
 import os

@@ -1,6 +1,6 @@
 from typing import List, Tuple, Dict
-from min_heap import MinHeap
-from huffman_node import HuffmanNode
+from src.min_heap import MinHeap
+from src.huffman_node import HuffmanNode
 
 
 def create_huffman_tree(frequencies: List[Tuple[int, int]]) -> Dict[int, str]:
