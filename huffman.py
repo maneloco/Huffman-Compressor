@@ -48,48 +48,51 @@ def main():
 
     args = parser.parse_args()
 
-    if args.output and not args.compress:
-        parser.error(
-                "The --output flag must be used in compress only (-c, --compress)."
-        )
+    origin_path = os.path.abspath(args.path)
+
+    if not os.path.exists(origin_path):
+        print(f"❌ Error: The file '{origin_path}' does not exist.")
+        return
 
     if args.compress:
-        origin_path = args.path
         original_name = os.path.basename(origin_path)
-        output_base = args.output if args.output else origin_path
+        
+        if args.output:
+            output_base = os.path.abspath(args.output)
+        else:
+            output_base = os.path.splitext(origin_path)[0]
+
         output_dir = os.path.dirname(output_base + ".huff")
         if output_dir:
-            os.makedirs(output_dir, exist_ok = True)
+            os.makedirs(output_dir, exist_ok=True)
 
+        print(f"📦 Compressing: {origin_path} -> {output_base}.huff")
 
-        print(f"📦 Compressing: {args.path} -> Destination: {output_base}.huff")
-        
         with open(origin_path, "rb") as file:
             frequencies = get_frequencies(file)
-        
+
         codes_dict = create_huffman_tree(frequencies)
-        
-        with open(origin_path, "rb") as file:
-            padding = compress(file, codes_dict, output_base)
+
+        padding = compress(origin_path, output_base, codes_dict)
 
         write_header(output_base, original_name, padding, frequencies)
-
         print("✨ Compression completed successfully.")
 
-        if args.remove:
-            print(f"🗑️ Removing original uncompressed file: {origin_path}")
-            os.remove(origin_path)
-
     elif args.decompress:
-        origin_path = args.path
-        print(f"🔓 Decompressing: {args.path}")
+        if args.output:
+            output_dir = os.path.abspath(args.output)
+            os.makedirs(output_dir, exist_ok=True)
+        else:
+            output_dir = os.getcwd()
 
-        actual_directory = os.getcwd()
-        os.makedirs(actual_directory, exist_ok=True)
+        print(f"🔓 Decompressing: {origin_path} -> {output_dir}")
 
-        decompress(origin_path, "")
-        print("✨ File restored successfully.")
+        decompress(origin_path, output_dir)
+        print(f"✨ File restored successfully inside: {output_dir}")
 
-        if args.remove:
-            print(f"🗑️ Removing source .huff file: {origin_path}")
-            os.remove(origin_path)
+    if args.remove:
+        print(f"🗑️ Removing source .huff file: {origin_path}")
+        os.remove(origin_path)
+
+if __name__ == "__main__":
+    main()

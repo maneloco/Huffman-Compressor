@@ -5,7 +5,7 @@ import os
 
 
 def decompress(file_path: str, output_path: str):
-    file_length = os.path.get_size(file_path)
+    file_length = os.path.getsize(file_path)
     with open(file_path, "rb") as file:
         padding, original_name, freq_list_length, header_length = get_header(file)
         inverse_codes_dict = get_inverse_codes_dict(file, freq_list_length)
